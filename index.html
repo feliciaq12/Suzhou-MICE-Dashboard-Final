@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remy – Live Demo</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="remy-dot">🤖<div class="online-ring"></div></div>
+    <div>
+      <div class="topbar-title"><span>Remy</span> — Home Health Companion</div>
+      <div class="topbar-sub">Software Interface Demo · RBE404TC Prototype</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="top-badge" id="clock">--:--</div>
+    <div class="top-badge user">👵 Margaret, 78</div>
+  </div>
+</div>
+
+<div class="layout">
+
+  <!-- ─── LEFT: VITALS + MEDS ─── -->
+  <div class="left-panel">
+
+    <!-- Alert -->
+    <div class="alert-bar" id="alertBar">
+      <div class="alert-icon">🚨</div>
+      <div class="alert-text"><strong>High Heart Rate</strong><br>112 BPM detected. Caregiver notified.</div>
+      <button class="alert-close" onclick="dismissAlert()">✕</button>
+    </div>
+
+    <!-- Vitals -->
+    <div class="vitals-block">
+      <div class="panel-label">❤️ Live Vitals</div>
+      <div class="vitals-grid">
+        <div class="vital">
+          <span class="vital-heart">❤️</span>
+          <div class="vital-val" id="bpmVal" style="color:#f43f5e">72</div>
+          <div class="vital-unit">BPM</div>
+          <div class="vital-lbl">Heart Rate</div>
+          <div class="vital-status s-normal" id="bpmSt">Normal</div>
+        </div>
+        <div class="vital">
+          <span class="vital-icon">🫁</span>
+          <div class="vital-val" style="color:#3b82f6">98</div>
+          <div class="vital-unit">%</div>
+          <div class="vital-lbl">SpO₂</div>
+          <div class="vital-status s-normal">Normal</div>
+        </div>
+        <div class="vital" style="grid-column:1/-1">
+          <span class="vital-icon">🩺</span>
+          <div class="vital-val" style="color:#a855f7;font-size:16px">120/80</div>
+          <div class="vital-lbl">Blood Pressure (mmHg)</div>
+          <div class="vital-status s-normal">Normal</div>
+        </div>
+      </div>
+
+      <div class="wave-wrap">
+        <svg width="800" height="36" viewBox="0 0 800 36">
+          <polyline points="0,18 20,18 28,4 36,32 44,18 70,18 78,4 86,32 94,18 120,18 128,4 136,32 144,18 170,18 178,4 186,32 194,18 220,18 228,4 236,32 244,18 270,18 278,4 286,32 294,18 320,18 328,4 336,32 344,18 370,18 378,4 386,32 394,18 420,18 428,4 436,32 444,18 470,18 478,4 486,32 494,18 520,18 528,4 536,32 544,18 570,18 578,4 586,32 594,18 620,18 628,4 636,32 644,18 670,18 678,4 686,32 694,18 720,18 728,4 736,32 744,18 770,18 778,4 786,32 794,18 800,18"
+            fill="none" stroke="#10b981" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+        </svg>
+      </div>
+
+      <button class="btn-sim" onclick="simulateAlert()">⚡ Simulate Anomaly Alert</button>
+    </div>
+
+    <!-- Meds -->
+    <div class="meds-block">
+      <div class="panel-label">💊 Today's Schedule</div>
+      <div class="med-list">
+        <div class="med-item">
+          <div class="med-dot" style="background:#10b981"></div>
+          <div class="med-info">
+            <div class="med-name">Amlodipine 5mg</div>
+            <div class="med-time">08:00 AM · Heart</div>
+          </div>
+          <div class="med-tag med-taken">✓ Taken</div>
+        </div>
+        <div class="med-item" style="border-color:rgba(59,130,246,0.4)">
+          <div class="med-dot" style="background:#3b82f6"></div>
+          <div class="med-info">
+            <div class="med-name">Metformin 500mg</div>
+            <div class="med-time">03:00 PM · Diabetes</div>
+          </div>
+          <div class="med-tag med-due" id="metTag">Due Now</div>
+        </div>
+        <div class="med-item">
+          <div class="med-dot" style="background:#475569"></div>
+          <div class="med-info">
+            <div class="med-name">Atorvastatin 20mg</div>
+            <div class="med-time">09:00 PM · Cholesterol</div>
+          </div>
+          <div class="med-tag med-upcoming">Upcoming</div>
+        </div>
+      </div>
+      <button class="btn-dispense" onclick="dispensePill()">💊 Dispense 3pm Dose</button>
+    </div>
+
+  </div>
+
+  <!-- ─── CENTRE: CIRCULAR SCREEN ─── -->
+  <div class="centre-panel">
+    <div class="screen-label">Remy's Circular Display · Live Preview</div>
+
+    <div class="remy-screen-outer">
+      <div class="screen-inner">
+
+        <!-- FACE (default) -->
+        <div class="screen-face">
+          <div class="face-eyes">
+            <div class="eye"></div>
+            <div class="eye"></div>
+          </div>
+          <div class="face-smile"></div>
+          <div class="face-status">● STANDBY · ALL GOOD</div>
+        </div>
+
+        <!-- VITALS VIEW -->
+        <div class="screen-vitals">
+          <div class="sv-title">❤️ Heart Rate</div>
+          <div class="sv-main" id="screenBPM">72</div>
+          <div class="sv-unit">BPM · Normal</div>
+          <div class="sv-row">
+            <div class="sv-item">
+              <div class="sv-val" style="color:#3b82f6">98%</div>
+              <div class="sv-lbl">SpO₂</div>
+            </div>
+            <div class="sv-divider"></div>
+            <div class="sv-item">
+              <div class="sv-val" style="color:#a855f7">120/80</div>
+              <div class="sv-lbl">BP mmHg</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ALERT VIEW -->
+        <div class="screen-alert">
+          <div class="sa-icon">🚨</div>
+          <div class="sa-title">High Heart Rate!</div>
+          <div class="sa-val">112</div>
+          <div class="sa-sub">BPM — above threshold<br>Sarah has been notified<br><span style="color:#f43f5e">Please rest & breathe slowly</span></div>
+        </div>
+
+        <!-- DISPENSE VIEW -->
+        <div class="screen-dispense">
+          <div class="sd-icon">💊</div>
+          <div class="sd-title">Dispensing...</div>
+          <div class="sd-name">Metformin 500mg<br><span style="color:#475569;font-size:10px">3:00 PM dose</span></div>
+          <div class="sd-bar"><div class="sd-fill"></div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Screen tabs -->
+    <div class="screen-tabs">
+      <button class="screen-tab active" onclick="setScreen('face', this)">😊 Face</button>
+      <button class="screen-tab" onclick="setScreen('vitals', this)">❤️ Vitals</button>
+      <button class="screen-tab" onclick="setScreen('alert', this)">🚨 Alert</button>
+      <button class="screen-tab" onclick="setScreen('dispense', this)">💊 Dispense</button>
+    </div>
+  </div>
+
+  <!-- ─── RIGHT: CHAT ─── -->
+  <div class="right-panel">
+    <div class="chat-head">
+      <div class="chat-avatar">🤖</div>
+      <div>
+        <div class="chat-name">Remy</div>
+        <div class="chat-sub"><div class="chat-dot"></div> AI Companion Active</div>
+      </div>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="msg bot">
+        <div class="msg-av bot">🤖</div>
+        <div>
+          <div class="msg-bubble">Good afternoon, Margaret! 😊 It's nearly time for your 3pm Metformin. Your heart rate looks great at 72 BPM today — you're doing wonderfully!</div>
+          <div class="msg-time">3:02 PM</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quick-wrap">
+      <button class="qbtn" onclick="sendQ('How am I doing today?')">How am I doing?</button>
+      <button class="qbtn" onclick="sendQ('I feel dizzy')">I feel dizzy</button>
+      <button class="qbtn" onclick="sendQ('What medications do I have left today?')">Today's meds</button>
+      <button class="qbtn" onclick="sendQ('I have chest pain')">Chest pain</button>
+    </div>
+
+    <div class="input-wrap">
+      <input class="chat-input" id="chatInput" placeholder="Talk to Remy..." onkeydown="if(event.key==='Enter')sendMsg()"/>
+      <button class="send-btn" id="sendBtn" onclick="sendMsg()">➤</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✅ Metformin 500mg dispensed into tray!</div>
+
+<script src="script.js"></script>
+</body>
+</html>
